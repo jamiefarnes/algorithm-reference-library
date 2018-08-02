@@ -536,6 +536,7 @@ def msmfsclean(dirty, psf, window, gain, thresh, niter, scales, fracthresh, find
 
 
 def find_global_optimum(hsmmpsf, ihsmmpsf, smresidual, windowstack, findpeak):
+    
     """Find the optimum peak using one of a number of algorithms
 
     """

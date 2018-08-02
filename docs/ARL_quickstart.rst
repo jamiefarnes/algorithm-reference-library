@@ -44,12 +44,12 @@ See the jupyter note books below:
 .. toctree::
    :maxdepth: 3
 
-   workflows/imaging_serial.rst
-   workflows/imaging-fits_serial.rst
-   workflows/imaging-wterm_serial.rst
-   workflows/rcal_serial.rst
-   workflows/simple-dask_arlexecute.rst
-   workflows/modelpartition_arlexecute.rst
-   workflows/imaging-pipelines_arlexecute.rst
+   wrappers/imaging_serial.rst
+   wrappers/imaging-fits_serial.rst
+   wrappers/imaging-wterm_serial.rst
+   wrappers/rcal_serial.rst
+   wrappers/simple-dask_arlexecute.rst
+   wrappers/modelpartition_arlexecute.rst
+   wrappers/imaging-pipelines_arlexecute.rst
 
 In addition, there are other notebooks that are not built as part of this documentation.

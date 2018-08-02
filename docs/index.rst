@@ -10,7 +10,7 @@ image, visibility table, gaintable, etc.
 
 The ARL structure maps that used in the SDP processing architecture:
 
-.. image:: ./SDP_processing_architecture.png
+.. image:: ./ARL_Module_View.png
    :scale: 100 %
 
 For clarity, not all connections are shown in this diagram.
@@ -21,8 +21,8 @@ For clarity, not all connections are shown in this diagram.
    ARL_quickstart
    ARL_directory
    ARL_API
-   ARL_directory_serial_workflows
-   ARL_directory_arlexecute_workflows
+   ARL_directory_serial_wrappers
+   ARL_directory_arlexecute_wrappers
 
 Reference material:
 

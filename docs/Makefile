@@ -67,8 +67,10 @@ prepare_processing_components:
 	+$(call make_example_rst,processing_components,*_files)
 prepare_workflows:
 	+$(call make_example_rst,workflows,*_files)
+prepare_wrappers:
+	+$(call make_example_rst,wrappers,*_files)
 #prepare: prepare_libs prepare_processing_components prepare_workflows
-prepare: prepare_workflows
+prepare: prepare_wrappers
 
 .PHONY: html
 html: prepare

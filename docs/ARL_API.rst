@@ -145,12 +145,6 @@ Deconvolution
 .. automodule:: processing_components.image.deconvolution
    :members:
 
-Solvers
-+++++++
-
-.. automodule:: processing_components.image.solvers
-   :members:
-
 Calibration
 -----------
 
@@ -291,40 +285,40 @@ to denote a null node.
 Calibration
 -----------
 
-.. automodule:: workflows.arlexecute.calibration.calibration_arlexecute
+.. automodule:: wrappers.arlexecute.calibration.calibration_arlexecute
    :members:
 
-.. automodule:: workflows.arlexecute.calibration.modelpartition_arlexecute
+.. automodule:: wrappers.arlexecute.calibration.modelpartition_arlexecute
    :members:
 
 Image
 -----
 
-.. automodule:: workflows.arlexecute.image.image_arlexecute
+.. automodule:: wrappers.arlexecute.image.image_arlexecute
    :members:
 
 Imaging
 -------
 
-.. automodule:: workflows.arlexecute.imaging.imaging_arlexecute
+.. automodule:: wrappers.arlexecute.imaging.imaging_arlexecute
    :members:
 
 Pipelines
 ---------
 
-.. automodule:: workflows.arlexecute.pipelines.pipeline_arlexecute
+.. automodule:: wrappers.arlexecute.pipelines.pipeline_arlexecute
    :members:
 
 Simulation
 ----------
 
-.. automodule:: workflows.arlexecute.simulation.simulation_arlexecute
+.. automodule:: wrappers.arlexecute.simulation.simulation_arlexecute
    :members:
 
 Visibility
 ----------
 
-.. automodule:: workflows.arlexecute.visibility.visibility_arlexecute
+.. automodule:: wrappers.arlexecute.visibility.visibility_arlexecute
    :members:
 
 Execution
@@ -333,50 +327,13 @@ Execution
 Execution (optionally via Dask)
 +++++++++++++++++++++++++++++++
 
-.. automodule:: workflows.arlexecute.execution_support.arlexecute
+.. automodule:: wrappers.arlexecute.execution_support.arlexecute
    :members:
 
 Dask init
 +++++++++
 
-.. automodule:: workflows.arlexecute.execution_support.dask_init
-   :members:
-
-Processing Component Interface
-------------------------------
-
-Wrappers
-++++++++
-
-.. automodule:: workflows.arlexecute.processing_component_interface
-   :members:
-
-ARL JSON schema
-+++++++++++++++
-
-.. automodule:: workflows.arlexecute.processing_component_interface.arl_json
-   :members:
-
-.. automodule:: workflows.arlexecute.processing_component_interface.arl_json.json_helpers
-   :members:
-
-
-Component wrapper
-+++++++++++++++++
-
-.. automodule:: workflows.arlexecute.processing_component_interface.processing_component_interface
-   :members:
-
-Processing component wrapper
-++++++++++++++++++++++++++++
-
-.. automodule:: workflows.arlexecute.processing_component_interface.processing_component_wrappers
-   :members:
-
-Execution helpers
-+++++++++++++++++
-
-.. automodule:: workflows.arlexecute.processing_component_interface.execution_helper
+.. automodule:: wrappers.arlexecute.execution_support.dask_init
    :members:
 
 Serial workflows
@@ -385,12 +342,12 @@ Serial workflows
 Imaging functions
 -----------------
 
-.. automodule:: workflows.serial.imaging.imaging_serial
+.. automodule:: wrappers.serial.imaging.imaging_serial
    :members:
 
 Pipeline functions
 ------------------
 
-.. automodule:: workflows.serial.pipelines.pipeline_serial
+.. automodule:: wrappers.serial.pipelines.pipeline_serial
    :members:
 

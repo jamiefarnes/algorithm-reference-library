@@ -28,8 +28,8 @@ The full layering is:
     at this level by setting wstep to the desired non-zero value.
 
 + Other algorithms (e.g. timeslice and wstack) are implemented as workflowss using the core 2d imaging functions.
-    These are defined in :py:mod:`workflows.serial.imaging.imaging_serial` and
-    :py:mod:`workflows.arlexecute.imaging.imaging_arlexecute`
+    These are defined in :py:mod:`wrappers.serial.imaging.imaging_serial` and
+    :py:mod:`wrappers.arlexecute.imaging.imaging_arlexecute`
 
 The style of first approach is::
 

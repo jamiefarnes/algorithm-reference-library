@@ -19,11 +19,11 @@ from processing_components.imaging.base import advise_wide_field
 from processing_components.simulation.testing_support import create_named_configuration, create_test_image, create_low_test_image_from_gleam, simulate_gaintable
 from data_models.polarisation import PolarisationFrame
 from processing_components.visibility.base import create_blockvisibility
-from workflows.serial.imaging.imaging_serial import invert_serial, predict_serial
+from wrappers.serial.imaging.imaging_serial import invert_serial, predict_serial
 from processing_components.image.operations import qa_image
 from processing_components.visibility.coalesce import convert_visibility_to_blockvisibility, convert_blockvisibility_to_visibility
 from processing_components.calibration.calibration import solve_gaintable
-from workflows.serial.pipelines.pipeline_serial import ical_serial
+from wrappers.serial.pipelines.pipeline_serial import ical_serial
 from data_models.data_model_helpers import export_image_to_hdf5
 
 from ffiwrappers.src.arlwrap_support import *
