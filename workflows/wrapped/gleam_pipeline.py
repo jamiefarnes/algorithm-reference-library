@@ -3,7 +3,7 @@
 """
 import os
 
-from workflows.processing_component_interface.processing_component_interface import component_wrapper
+from workflows.processing_component_interface.wrapper_interface import wrapper_interface
 
 if __name__ == '__main__':
     
@@ -27,7 +27,7 @@ if __name__ == '__main__':
                         "tests/workflows/test_continuum_imaging.json"]
     
     for processing_step in processing_steps:
-        component_wrapper(processing_step)
+        wrapper_interface(processing_step)
     
     for f in files:
         assert os.path.isfile(f), "Output file %s does not exist" % f

@@ -6,7 +6,7 @@ import logging
 import unittest
 
 from data_models.parameters import arl_path
-from workflows.processing_component_interface.processing_component_interface import initialise_config_wrapper
+from workflows.processing_component_interface.wrapper_interface import initialise_config_wrapper
 from workflows.processing_component_interface.execution_helper import initialise_logging_wrapper
 
 class TestWrappers(unittest.TestCase):

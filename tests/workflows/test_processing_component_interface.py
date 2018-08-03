@@ -6,7 +6,7 @@ import os
 import unittest
 
 from data_models.parameters import arl_path
-from workflows.processing_component_interface.processing_component_interface import component_wrapper
+from workflows.processing_component_interface.wrapper_interface import wrapper_interface
 
 
 class TestProcessingComponentInterface(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestProcessingComponentInterface(unittest.TestCase):
                                "tests/workflows/test_continuum_imaging.json"]
         
         for processing_step in processinging_steps:
-            component_wrapper(processing_step)
+            wrapper_interface(processing_step)
         
         for f in files:
             assert os.path.isfile(arl_path(f)), "File %s does not exist" % arl_path(f)

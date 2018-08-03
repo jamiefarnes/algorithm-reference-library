@@ -6,10 +6,10 @@ A bash script example for a continuum imaging pipeline is::
     #!/usr/bin/env bash
     cd ${ARL}/workflows/wrapped
     comp_location=${ARL}/processing_components/processing_component_interface
-    python ${comp_location}/processing_component_interface.py --config gleam_create_vislist.json
-    python ${comp_location}/processing_component_interface.py --config gleam_create_skymodel.json
-    python ${comp_location}/processing_component_interface.py --config gleam_predict_vislist.json
-    python ${comp_location}/processing_component_interface.py --config gleam_continuum_imaging.json
+    python ${comp_location}/wrapper_interface.py --config gleam_create_vislist.json
+    python ${comp_location}/wrapper_interface.py --config gleam_create_skymodel.json
+    python ${comp_location}/wrapper_interface.py --config gleam_predict_vislist.json
+    python ${comp_location}/wrapper_interface.py --config gleam_continuum_imaging.json
 
 To be available in this way, a component must be wrapped appropriately and placed in
 processing_component_wrappers.py. For example, here is a simple wrapper::
@@ -117,16 +117,16 @@ file is::
 
 The parameters for the component are passed via a JSON file, either via python::
     
-    component_wrapper("gleam_continuum_imaging.json")
+    wrapper_interface("gleam_continuum_imaging.json")
 
 or the dict derived from JSON may be passed directly::
 
     config = initialise_config_wrapper("gleam_continuum_imaging.json")
-    component_wrapper(config)
+    wrapper_interface(config)
     
 or from bash::
 
-    python component_wrapper -- config "gleam_continuum_imaging.json"
+    python wrapper_interface -- config "gleam_continuum_imaging.json"
     
 
     
