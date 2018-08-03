@@ -65,30 +65,46 @@ class TestImaging(unittest.TestCase):
             flux = numpy.array([f])
         
         self.phasecentre = SkyCoord(ra=+180.0 * u.deg, dec=-60.0 * u.deg, frame='icrs', equinox='J2000')
-        self.vis = ingest_unittest_visibility(self.low,
-                                              self.frequency,
-                                              self.channelwidth,
-                                              self.times,
-                                              self.vis_pol,
-                                              self.phasecentre, block=block,
-                                              zerow=zerow)
+        self.vis_list = [ingest_unittest_visibility(self.low,
+                                                    [self.frequency[freqwin]],
+                                                    [self.channelwidth[freqwin]],
+                                                    self.times,
+                                                    self.vis_pol,
+                                                    self.phasecentre, block=block,
+                                                    zerow=zerow)
+                         for freqwin, _ in enumerate(self.frequency)]
         
-        self.model = create_unittest_model(self.vis,
-                                           self.image_pol,
-                                           npixel=self.npixel)
-        self.components = create_unittest_components(self.model,
-                                                     flux[0, :][numpy.newaxis, :])
+        self.model_list = [create_unittest_model(self.vis_list[freqwin],
+                                                 self.image_pol,
+                                                 npixel=self.npixel)
+                           for freqwin, _ in enumerate(self.frequency)]
         
-        self.model = insert_skycomponent(self.model, self.components)
+        self.components_list = [create_unittest_components(self.model_list[freqwin],
+                                                           flux[freqwin, :][numpy.newaxis, :])
+                                for freqwin, _ in enumerate(self.frequency)]
         
-        self.vis = predict_skycomponent_visibility(self.vis, self.components)
+        self.model_list = [insert_skycomponent(self.model_list[freqwin],
+                                               self.components_list[freqwin])
+                           for freqwin, _ in enumerate(self.frequency)]
+        
+        self.vis_list = [predict_skycomponent_visibility(self.vis_list[freqwin],
+                                                         self.components_list[freqwin])
+                         for freqwin, _ in enumerate(self.frequency)]
+        
+        # Calculate the model convolved with a Gaussian.
+        self.model = self.model_list[0]
         
         self.cmodel = smooth_image(self.model)
         export_image_to_fits(self.model, '%s/test_imaging_model.fits' % self.dir)
         export_image_to_fits(self.cmodel, '%s/test_imaging_cmodel.fits' % self.dir)
         
         if add_errors and block:
-            self.vis = insert_unittest_errors(self.vis)
+            self.vis_list = [insert_unittest_errors(self.vis_list[i])
+                             for i, _ in enumerate(self.frequency)]
+        
+        self.vis = self.vis_list[0]
+        
+        self.components = self.components_list[0]
     
     def test_time_setup(self):
         self.actualSetUp()
@@ -107,36 +123,42 @@ class TestImaging(unittest.TestCase):
     
     def _predict_base(self, context='2d', extra='', fluxthreshold=1.0, facets=1, vis_slices=1, **kwargs):
         
-        vis = copy_visibility(self.vis)
-        vis.data['vis'][...] = 0
-        vis = predict_serial(vis, self.model, context=context,
+        
+        vis_list = []
+        for v in self.vis_list:
+            vv = copy_visibility(v)
+            vv.data['vis'][...] = 0
+            vis_list.append(vv)
+            
+        vis_list = predict_serial(vis_list, self.model_list, context=context,
                              vis_slices=vis_slices, facets=facets, **kwargs)
         
-        vis.data['vis'][...] -= self.vis.data['vis'][...]
+        for i, _ in enumerate(vis_list):
+            vis_list[i].data['vis'][...] -= self.vis_list[i].data['vis'][...]
         
-        dirty = invert_serial(vis, self.model, context='2d', dopsf=False,
+        dirty = invert_serial(vis_list, self.model_list, context='2d', dopsf=False,
                               normalize=True)
         
-        assert numpy.max(numpy.abs(dirty[0].data)), "Residual image is empty"
-        export_image_to_fits(dirty[0], '%s/test_imaging_predict_%s%s_dirty.fits' %
+        assert numpy.max(numpy.abs(dirty[0][0].data)), "Residual image is empty"
+        export_image_to_fits(dirty[0][0], '%s/test_imaging_serial_predict_%s%s_dirty.fits' %
                              (self.dir, context, extra))
         
-        maxabs = numpy.max(numpy.abs(dirty[0].data))
+        maxabs = numpy.max(numpy.abs(dirty[0][0].data))
         assert maxabs < fluxthreshold, "Error %.3f greater than fluxthreshold %.3f " % (maxabs, fluxthreshold)
     
     def _invert_base(self, context, extra='', fluxthreshold=1.0, positionthreshold=1.0, check_components=True,
                      facets=1, vis_slices=1, **kwargs):
         
-        dirty = invert_serial(self.vis, self.model, context=context,
+        dirty = invert_serial(self.vis_list, self.model_list, context=context,
                               dopsf=False, normalize=True, facets=facets, vis_slices=vis_slices,
                               **kwargs)
-        export_image_to_fits(dirty[0], '%s/test_imaging_invert_%s%s_dirty.fits' %
+        export_image_to_fits(dirty[0][0], '%s/test_imaging_serial_invert_%s%s_dirty.fits' %
                              (self.dir, context, extra))
         
-        assert numpy.max(numpy.abs(dirty[0].data)), "Image is empty"
+        assert numpy.max(numpy.abs(dirty[0][0].data)), "Image is empty"
         
         if check_components:
-            self._checkcomponents(dirty[0], fluxthreshold, positionthreshold)
+            self._checkcomponents(dirty[0][0], fluxthreshold, positionthreshold)
     
     def test_predict_2d(self):
         self.actualSetUp(zerow=True)
