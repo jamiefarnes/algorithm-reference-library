@@ -25,7 +25,7 @@ from wrappers.arlexecute.pipelines.pipeline_arlexecute import continuum_imaging_
 from wrappers.arlexecute.simulation.simulation_arlexecute import simulate_arlexecute, corrupt_arlexecute
 
 
-def continuum_imaging_wrapper(conf):
+def continuum_imaging_arlexecute_wrapper(conf):
     """Wrap continuum imaging pipeline
     
     :param conf:
@@ -76,7 +76,7 @@ def continuum_imaging_wrapper(conf):
     return arlexecute.execute(output_images)(result)
 
 
-def ical_wrapper(conf):
+def ical_arlexecute_wrapper(conf):
     """ Wrap ICAL pipeline
     
     :param conf: Configuration from JSON file
@@ -127,7 +127,7 @@ def ical_wrapper(conf):
     return arlexecute.execute(output_images)(result)
 
 
-def create_vislist_wrapper(conf):
+def create_vislist_arlexecute_wrapper(conf):
     """ Create an empty vislist
     
     :param conf: Configuration from JSON file
@@ -159,7 +159,7 @@ def create_vislist_wrapper(conf):
     return arlexecute.execute(output_vislist)(vis_list)
 
 
-def create_skymodel_wrapper(conf):
+def create_skymodel_arlexecute_wrapper(conf):
     """ Wrapper to create skymodel
     
     :param conf: Configuration from JSON file
@@ -214,7 +214,7 @@ def create_skymodel_wrapper(conf):
     return arlexecute.execute(output_skymodel)(models, components)
 
 
-def predict_vislist_wrapper(conf):
+def predict_vislist_arlexecute_wrapper(conf):
     """Wrapper for prediction
 
     :param conf: Configuration from JSON file
@@ -261,7 +261,7 @@ def predict_vislist_wrapper(conf):
     return arlexecute.execute(output_vislist)(predicted_vis_list)
 
 
-def corrupt_vislist_wrapper(conf):
+def corrupt_vislist_arlexecute_wrapper(conf):
     """Wrapper for corruption
 
     :param conf:

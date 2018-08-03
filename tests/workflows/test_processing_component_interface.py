@@ -26,13 +26,13 @@ class TestProcessingComponentInterface(unittest.TestCase):
         except FileNotFoundError:
             pass
         
-        config_files = ["tests/workflows/test_create_vislist.json",
-                        "tests/workflows/test_create_skymodel.json",
-                        "tests/workflows/test_predict_vislist.json",
-                        "tests/workflows/test_continuum_imaging.json"]
+        processinging_steps = ["tests/workflows/test_create_vislist.json",
+                               "tests/workflows/test_create_skymodel.json",
+                               "tests/workflows/test_predict_vislist.json",
+                               "tests/workflows/test_continuum_imaging.json"]
         
-        for config_file in config_files:
-            component_wrapper(arl_path(config_file))
+        for processing_step in processinging_steps:
+            component_wrapper(processing_step)
         
         for f in files:
             assert os.path.isfile(arl_path(f)), "File %s does not exist" % arl_path(f)

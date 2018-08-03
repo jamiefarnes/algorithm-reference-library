@@ -5,7 +5,7 @@
         "memory_limit": 4000000000
     },
     "component": {
-        "framework": "ARL",
+        "execution_framework": "arlexecute",
         "name": "create_skymodel"
     },
     "logging": {

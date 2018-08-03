@@ -5,10 +5,13 @@
 import logging
 
 from wrappers.arlexecute.execution_support.arlexecute import arlexecute
+from wrappers.arlexecute.processing_component_wrappers import create_vislist_arlexecute_wrapper, \
+    create_skymodel_arlexecute_wrapper, predict_vislist_arlexecute_wrapper, continuum_imaging_arlexecute_wrapper, \
+    corrupt_vislist_arlexecute_wrapper
+from wrappers.serial.processing_component_wrappers import create_vislist_serial_wrapper
+
 from workflows.processing_component_interface.execution_helper import initialise_config_wrapper, \
     initialise_execution_wrapper
-from workflows.processing_component_interface.processing_component_wrappers import create_vislist_wrapper, \
-    create_skymodel_wrapper, predict_vislist_wrapper, continuum_imaging_wrapper, corrupt_vislist_wrapper
 
 # Add new wrapped components here. These are accessed using globals()
 
@@ -32,22 +35,24 @@ def component_wrapper(config):
     
     log = logging.getLogger()
     
-    assert config["component"]["framework"] == "ARL", "JSON specifies non-ARL component" % \
-                                                      config["component"]["framework"]
+    ef = config["component"]["execution_framework"]
     
     arl_component = config["component"]["name"]
     
-    wrapper = arl_component + "_wrapper"
+    wrapper = arl_component + "_" + ef + "_wrapper"
     assert wrapper in globals().keys(), 'ARL component %s is not wrapped' % arl_component
     
-    log.info('component_wrapper: executing ARL component %s' % arl_component)
-    print('component_wrapper: executing ARL component %s' % arl_component)
+    log.info('component_wrapper: executing %s component %s' % (ef, arl_component))
+    print('component_wrapper: executing %s component %s' % (ef, arl_component))
     
-    result = globals()[wrapper](config)
-    
-    arlexecute.compute(result, sync=True)
-    
-    arlexecute.close()
+    if ef == "arlexecute":
+        result = globals()[wrapper](config)
+        arlexecute.compute(result, sync=True)
+        arlexecute.close()
+    elif ef == "serial":
+        globals()[wrapper](config)
+    else:
+        raise NotImplemented("Execution framework %s is not supported" % ef)
 
 
 if __name__ == '__main__':
