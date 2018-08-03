@@ -5,15 +5,21 @@
 import logging
 
 from wrappers.arlexecute.execution_support.arlexecute import arlexecute
+from workflows.processing_component_interface.execution_helper import initialise_config_wrapper
+from wrappers.arlexecute.processing_component_wrappers import setup_execution_wrapper_arlexecute, \
+    teardown_execution_wrapper_arlexecute
+from wrappers.serial.processing_component_wrappers import setup_execution_wrapper_serial, \
+    teardown_execution_wrapper_serial
+
+
+
+# Add new wrapped components here. These are accessed using globals()
+
 from wrappers.arlexecute.processing_component_wrappers import create_vislist_arlexecute_wrapper, \
     create_skymodel_arlexecute_wrapper, predict_vislist_arlexecute_wrapper, continuum_imaging_arlexecute_wrapper, \
     corrupt_vislist_arlexecute_wrapper
 from wrappers.serial.processing_component_wrappers import create_vislist_serial_wrapper
 
-from workflows.processing_component_interface.execution_helper import initialise_config_wrapper, \
-    initialise_execution_wrapper
-
-# Add new wrapped components here. These are accessed using globals()
 
 def component_wrapper(config):
     """Run an ARL component as described in a JSON dict or file
@@ -30,8 +36,6 @@ def component_wrapper(config):
     else:
         raise ValueError("config must be either a string of a JSON file or a dictionary")
     
-    # Initialise execution framework and set up the logging
-    initialise_execution_wrapper(config)
     
     log = logging.getLogger()
     
@@ -46,11 +50,16 @@ def component_wrapper(config):
     print('component_wrapper: executing %s component %s' % (ef, arl_component))
     
     if ef == "arlexecute":
+        # Initialise execution framework and set up the logging
+        setup_execution_wrapper_arlexecute(config)
         result = globals()[wrapper](config)
         arlexecute.compute(result, sync=True)
         arlexecute.close()
+        teardown_execution_wrapper_arlexecute(config)
     elif ef == "serial":
+        setup_execution_wrapper_serial(config)
         globals()[wrapper](config)
+        teardown_execution_wrapper_serial(config)
     else:
         raise NotImplemented("Execution framework %s is not supported" % ef)
 

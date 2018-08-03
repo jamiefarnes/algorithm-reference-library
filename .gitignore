@@ -39,3 +39,5 @@ dask-worker-space
 *.fits
 *.hdf
 /_build
+docs/wrappers/*_files
+docs/wrappers/*.rst

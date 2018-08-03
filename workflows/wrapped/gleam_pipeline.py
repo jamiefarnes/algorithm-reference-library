@@ -6,7 +6,7 @@ import os
 from workflows.processing_component_interface.processing_component_interface import component_wrapper
 
 if __name__ == '__main__':
-
+    
     files = ["test_results/test_pipeline.log",
              "test_results/test_skymodel.hdf",
              "test_results/test_empty_vislist.hdf",
@@ -21,12 +21,12 @@ if __name__ == '__main__':
     except FileNotFoundError:
         pass
     
-    processinging_steps = ["tests/workflows/test_create_vislist.json",
-                           "tests/workflows/test_create_skymodel.json",
-                           "tests/workflows/test_predict_vislist.json",
-                           "tests/workflows/test_continuum_imaging.json"]
+    processing_steps = ["tests/workflows/test_create_vislist.json",
+                        "tests/workflows/test_create_skymodel.json",
+                        "tests/workflows/test_predict_vislist.json",
+                        "tests/workflows/test_continuum_imaging.json"]
     
-    for processing_step in processinging_steps:
+    for processing_step in processing_steps:
         component_wrapper(processing_step)
     
     for f in files:

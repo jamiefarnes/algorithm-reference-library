@@ -10,6 +10,7 @@ from data_models.buffer_data_models import BufferBlockVisibility
 from workflows.processing_component_interface.arl_json.json_helpers import json_to_linspace, json_to_skycoord
 from wrappers.arlexecute.execution_support.arlexecute import arlexecute
 from wrappers.arlexecute.simulation.simulation_arlexecute import simulate_arlexecute
+from processing_component_interface.execution_helper import initialise_logging_wrapper
 
 
 def create_vislist_serial_wrapper(conf):
@@ -42,3 +43,23 @@ def create_vislist_serial_wrapper(conf):
         bdm.sync()
     
     return arlexecute.execute(output_vislist)(vis_list)
+
+def setup_execution_wrapper_serial(conf):
+    """Setup the execution framework from JSON configuration
+
+    See arl_schema.json
+
+    :param conf: JSON configuratiion
+    """
+    initialise_logging_wrapper(conf)
+
+
+def teardown_execution_wrapper_serial(conf):
+    """Teardown the execution framework from JSON configuration
+
+    See arl_schema.json
+
+    :param conf: JSON configuratiion
+    """
+    pass
+

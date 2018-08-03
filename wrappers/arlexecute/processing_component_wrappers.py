@@ -6,10 +6,12 @@ These can be executed using processing_arlexecute_interface.py.
 
 import numpy
 
+from wrappers.arlexecute.execution_support.arlexecute import arlexecute
 from data_models.buffer_data_models import BufferBlockVisibility, BufferImage, BufferSkyModel
 from data_models.memory_data_models import SkyModel
 from data_models.polarisation import PolarisationFrame
 from libs.image.operations import create_image
+from processing_component_interface.execution_helper import initialise_logging_wrapper
 from processing_components.image.gather_scatter import image_gather_channels
 from processing_components.imaging.base import create_image_from_visibility, predict_skycomponent_visibility
 from processing_components.imaging.primary_beams import create_pb
@@ -279,3 +281,26 @@ def corrupt_vislist_arlexecute_wrapper(conf):
         bdm.sync()
     
     return arlexecute.execute(output_vislist)(corrupted_vislist)
+
+
+def setup_execution_wrapper_arlexecute(conf):
+    """Setup the execution framework from JSON configuration
+
+    See arl_schema.json
+
+    :param conf: JSON configuratiion
+    """
+    arlexecute.set_client(use_dask=conf["execute"]["use_dask"],
+                          n_workers=conf["execute"]["n_workers"],
+                          memory_limit=conf["execute"]["memory_limit"])
+    arlexecute.run(initialise_logging_wrapper, conf)
+
+
+def teardown_execution_wrapper_arlexecute(conf):
+    """Teardown the execution framework from JSON configuration
+
+    See arl_schema.json
+
+    :param conf: JSON configuratiion
+    """
+    arlexecute.close()

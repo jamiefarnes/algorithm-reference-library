@@ -49,7 +49,6 @@ See the jupyter note books below:
    wrappers/imaging-wterm_serial.rst
    wrappers/rcal_serial.rst
    wrappers/simple-dask_arlexecute.rst
-   wrappers/modelpartition_arlexecute.rst
    wrappers/imaging-pipelines_arlexecute.rst
 
 In addition, there are other notebooks that are not built as part of this documentation.
